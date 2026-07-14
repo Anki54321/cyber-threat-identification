@@ -1,0 +1,110 @@
+{% extends 'SProvider/Header.html' %}
+{% block researchblock %}
+
+<style>
+    body {
+        background-color: #FFFFFF;
+        margin: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    .menu table {
+        width: 100%;
+        text-align: center;
+    }
+
+    .menu table td:hover {
+        background: rgb(0, 0, 0);
+    }
+
+    .menu table td {
+        background: #584b4f;
+    }
+
+    .menu table, .menu table th, .menu table td {
+        border-collapse: collapse;
+    }
+
+    .menu table th, .menu table td {
+        padding: 15px;
+    }
+
+    .topic h1 {
+        color: white;
+        padding: 2px;
+        text-align: center;
+        height: 100px;
+        width: 100%;
+    }
+
+    .sidemenu {
+        margin-top: 140px;
+        margin-left: 60px;
+        width: 200px;
+        float: left;
+    }
+
+    .sidemenu a {
+        display: block;
+        color: white;
+        font-size: 18px;
+        margin: 20px 0;
+        text-decoration: none;
+    }
+
+    .sidemenu a:hover {
+        text-decoration: underline;
+    }
+
+    #chartContainer {
+        width: calc(100% - 260px);
+        margin-left: 260px;
+        margin-top: 40px;
+    }
+</style>
+
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script>
+window.onload = function() {
+    var chart = new CanvasJS.Chart("chartContainer", {
+        animationEnabled: true,
+        title: {
+            text: ""
+        },
+        data: [{
+            {% if chart_type == "line" %}
+                type: "line",
+            {% elif chart_type == "pie" %}
+                type: "pie",
+                startAngle: 240,
+                yValueFormatString: "##0.00\"%\"",
+                indexLabel: "{label} {y}",
+            {% elif chart_type == "spline" %}
+                type: "spline",
+            {% endif %}
+            dataPoints: [
+                {% for o in form %}
+                    { y: {{ o.dcount }}, label: "{{ o.names }}" }{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ]
+        }]
+    });
+    chart.render();
+}
+</script>
+
+<body>
+    <div class="topic">
+        <h1>Data Chart</h1>
+    </div>
+
+    <div class="sidemenu">
+        <a href="{% url 'charts1' 'pie' %}">PIE CHART</a>
+        <a href="{% url 'charts1' 'line' %}">LINE CHART</a>
+        <a href="{% url 'charts1' 'spline' %}">SPLINE CHART</a>
+    </div>
+
+    <div id="chartContainer" class="graph"></div>
+</body>
+
+{% endblock %}
