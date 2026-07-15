@@ -1,5 +1,11 @@
 ## Prerequisites
 
+## If using Docker Compose (recommended)
+git pull origin main
+
+docker compose up -d --build
+
+## If not using docker
 Before running this project, make sure the following software is installed on your system:
 
 ### 1. Python
