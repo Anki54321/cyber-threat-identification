@@ -7,10 +7,21 @@ services:
       context: .
       dockerfile: Dockerfile
     image: threatlens:latest
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     volumes:
       - .:/app
     restart: unless-stopped
     stdin_open: true
     tty: true
+  
+  nginx:
+    image: nginx:latest
+    container_name: threatlens-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ../nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - threatlens
+    restart: unless-stopped
