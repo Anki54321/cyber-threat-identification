@@ -4,7 +4,7 @@ Before running this project, make sure the following software is installed on yo
 
 ### 1. Python
 
-Install **Python 3.9 or later**.
+Install **Python 3.8 or later**.
 
 Download:
 https://www.python.org/downloads/
