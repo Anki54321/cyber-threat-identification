@@ -13,7 +13,7 @@ class ClientRegister_Model(models.Model):
     state = models.CharField(max_length=30)
     city = models.CharField(max_length=30)
     gender= models.CharField(max_length=30)
-    address= models.CharField(max_length=30)
+    address= models.CharField(max_length=30, blank=True, null=True)
 
 
 class cyber_threat_identification(models.Model):

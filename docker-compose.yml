@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  threatlens:
+    container_name: threatlens
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: threatlens:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    restart: unless-stopped
+    stdin_open: true
+    tty: true

@@ -24,18 +24,23 @@ from Remote_User.models import ClientRegister_Model,cyber_threat_identification,
 
 def login(request):
 
-
-    if request.method == "POST" and 'submit1' in request.POST:
+    if request.method == "POST":
 
         username = request.POST.get('username')
         password = request.POST.get('password')
-        try:
-            enter = ClientRegister_Model.objects.get(username=username,password=password)
-            request.session["userid"] = enter.id
 
+        try:
+            enter = ClientRegister_Model.objects.get(
+                username=username,
+                password=password
+            )
+
+            request.session["userid"] = enter.id
             return redirect('ViewYourProfile')
-        except:
-            pass
+
+        except ClientRegister_Model.DoesNotExist:
+            return render(request, 'RUser/login.html',
+                          {'msg':'Invalid username or password'})
 
     return render(request,'RUser/login.html')
 
@@ -104,7 +109,7 @@ def Predict_Cyber_Threat_Identification_Type(request):
             clean_words = [word.lower() for word in words if word not in set(string.punctuation)]
             # remove stop words
             english_stops = set(stopwords.words('english'))
-            characters_to_remove = ["''", '``', "rt", "https", "â€™", "â€œ", "â€", "\u200b", "--", "n't", "'s",
+            characters_to_remove = ["''", '``', "rt", "https", "â€™", "â€œ", "â€", "\u200b", "--", "n't", "'s",
                                     "...",
                                     "//t.c"]
             clean_words = [word for word in clean_words if word not in english_stops]
