@@ -9,6 +9,12 @@ COPY Requirement.txt .
 
 RUN pip install --upgrade pip setuptools wheel
 RUN pip install -r Requirement.txt
+RUN python -m nltk.downloader \
+    punkt \
+    punkt_tab \
+    stopwords \
+    wordnet \
+    omw-1.4
 
 COPY . .
 
